@@ -1,62 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
-
-/* base styles */
-* {
+html,
+body {
   margin: 0;
-  font-family: "Quicksand";
-  color: #333;
+  padding: 0;
 }
-.navbar {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  max-width: 600px;
-  margin: 0 auto;
-  border-bottom: 1px solid #f2f2f2;
-}
-.navbar h1 {
-  color: #f1356d;
-}
-.navbar .links {
-  margin-left: auto;
-}
-.navbar a {
-  margin-left: 16px;
-  text-decoration: none;
-  padding: 6px;
-}
-.navbar a:hover {
-  color: #f1356d;
-}
-.content {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
+body {
+  font-family: sans-serif;
+  background-image: url(../Components/assets/felt.png),
+    -webkit-radial-gradient(50% 40%, circle farthest-corner, #527c14, #243a0a);
+  background-size: 180px 180px, auto;
+  background-attachment: fixed;
+  user-select: none;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  padding: 0;
 }
 
-/* blog previews / list */
-.blog-preview {
-  padding: 10px 16px;
-  margin: 20px 0;
-  border-bottom: 1px solid #fafafa;
+#app {
+  contain: layout style;
+  overflow: visible;
 }
-.blog-preview:hover {
-  box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
-}
-.blog-preview h2 {
-  font-size: 20px;
-  color: #f1356d;
-  margin-bottom: 8px;
-}
-
-
 
 .roulette-wheel {
   float: right;
   width: 380px;
   height: 380px;
   border-radius: 100%;
-  background: url(./Components/assets/roulette_1.jpg);
+  background: url(../Components/assets/roulette_1.jpg);
   background-size: 380px 380px;
   shape-outside: circle(190px);
   margin: 0 0 1em 1em;
@@ -64,15 +34,12 @@
   position: relative;
   touch-action: none;
   overflow: visible;
-
-  
 }
 
 @media screen and (max-width: 2640px) {
   .roulette-wheel {
     float: none;
     margin: 1em auto;
-    
   }
 }
 
@@ -106,19 +73,19 @@
 }
 
 .roulette-wheel .layer-2 {
-  background-image: url(./Components/assets/roulette_2.png);
+  background-image: url(../Components/assets/roulette_2.png);
 }
 
 .roulette-wheel .layer-3 {
-  background-image: url(./Components/assets/roulette_3.png);
+  background-image: url(../Components/assets/roulette_3.png);
 }
 
 .roulette-wheel .layer-4 {
-  background-image: url(./Components/assets/roulette_4.png);
+  background-image: url(../Components/assets/roulette_4.png);
 }
 
 .roulette-wheel .layer-5 {
-  background-image: url(./Components/assets/roulette_5.png);
+  background-image: url(../Components/assets/roulette_5.png);
 }
 
 .roulette-wheel svg {
