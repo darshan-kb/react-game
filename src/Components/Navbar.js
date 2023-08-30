@@ -1,25 +1,44 @@
 import { Link } from 'react-router-dom';
-import { React } from 'react';
+import { React, useEffect, useState } from 'react';
 
-const Navbar = () => {
+const Navbar = (props) => {
 
-    // const verifier = generateCodeVerifier();
-    // sessionStorage.setItem('codeVerifier', verifier);
-    // console.log("verifier "+verifier);
-    // const codeChallenge = generateCodeChallenge();
-    // sessionStorage.setItem('codeChallenge', codeChallenge);
-    // console.log("code challenge "+codeChallenge);
+    let [flag, setFlag] = useState(sessionStorage.getItem('id_token') ==null ? false : true);
+
+    // useEffect(() =>{
+    //     setFlag(sessionStorage.getItem('id_token') ==null ? false : true);
+    // },[flag])
+    
+    const logout = () =>{
+        console.log("Hello");
+        sessionStorage.clear();
+        console.log(sessionStorage.removeItem('id_token'));
+        window.location.href = "/";
+        setFlag(false);
+    }
+
     return (
-      <nav className="navbar">
-        <h1>Poker Game</h1>
-        <div className="links">
-          <a href="/">Home</a>
-          <a href="/login">Login</a>
+        <nav className="navbar">
+          <h1>Poker Game</h1>
+          <div className="links">
+            <p>{props.username}</p>
+            <a href="/">Home</a>
+            {
+              flag===false && <a href="/login" onClick={() => setFlag(true)}>Login</a>
+            }
+            {
+                flag===true && (<a href="/game">Game </a>)
+            }
+            {
+                
+              flag===true && (<button onClick={logout}>Logout</button>)
+            }
+            
+          </div>
           
-        </div>
-        
-      </nav>
-    );
+        </nav>
+      );
+    
   }
    
   export default Navbar;

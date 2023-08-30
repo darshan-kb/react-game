@@ -3,15 +3,18 @@ import {authorize} from "../links/authorize";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import token from "../links/token";
 import { Buffer } from "buffer";
+import { generateCodeVerifier, generateCodeChallenge } from '../pkce/pkce';
 const Redirect = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    
 
     useEffect(() => {
+        
         if(searchParams?.get('code')){
             const code = searchParams?.get('code');
-            const client = 'client';
-            const secret = 'secret';
+            const client = process.env.REACT_APP_CLIENT;
+            const secret = process.env.REACT_APP_SECRET;
             const headers = new Headers();
             headers.append('Content-type', 'application/json');
             headers.append('Authorization', `Basic ${Buffer.from(`${client}:${secret}`).toString('base64')}`);
@@ -29,7 +32,7 @@ const Redirect = () => {
                 const token = await response.json();
                 if(token?.id_token) {
                     sessionStorage.setItem('id_token', token.id_token);
-                    navigate('/home');
+                    navigate('/');
                 }
             }).catch((err) => {
                 console.log(err);
