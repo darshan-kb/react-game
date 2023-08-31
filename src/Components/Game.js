@@ -37,7 +37,7 @@ function Countdown(){
                 })
             .catch(error => console.log('error', error));
         },1000);
-    },[])
+    })
     
     return (
         <div style={{color:"white", fontSize:"3vw", fontWeight:"bold"}}>
@@ -81,7 +81,7 @@ const Game = () =>{
                 })
             .catch(error => console.log('error', error));
         },1000);
-    },[])
+    })
 
     return (
         
