@@ -220,9 +220,13 @@ function Number0({singleNum, currentChip, BoardButtonF}){
         </div>
     )
 }
-function ChipDeck({value, chipSelect, colour, chipValue}){
+function ChipDeck({value, chipSelect, colour, selectedchipState}){
     return(
-        <div style={{height:"40px", width:"40px", marginTop:"25px", marginLeft:"8px", boxShadow: "inset 0 0 0 3px "+colour, backgroundColor:"white", borderRadius:"100%", border:"3px solid "+colour, borderColor:colour, fontSize:"13px", color:"black", fontSize:"20px", fontWeight:"bold", cursor:"pointer"}} onClick={chipSelect}><div style={{marginTop:"4px"}}>{value}</div></div>
+        <>
+            {selectedchipState===0 && <div style={{height:"40px", width:"40px", marginTop:"25px", marginLeft:"8px", boxShadow: "inset 0 0 0 3px "+colour, backgroundColor:"white", borderRadius:"100%", border:"3px solid "+colour, borderColor:colour, fontSize:"13px", color:"black", fontSize:"20px", fontWeight:"bold", cursor:"pointer"}} onClick={chipSelect}><div style={{marginTop:"4px"}}>{value}</div></div>}
+            {selectedchipState===1 && <div style={{height:"50px", width:"50px", marginTop:"25px", marginLeft:"2px", boxShadow: "inset 0 0 0 3px "+colour, backgroundColor:"white", borderRadius:"100%", border:"3px solid "+colour, borderColor:colour, fontSize:"15px", color:"black", fontSize:"20px", fontWeight:"bold", cursor:"pointer"}} onClick={chipSelect}><div style={{marginTop:"12px"}}>{value}</div></div>}
+        </>
+        
     );
 }
 
@@ -244,13 +248,11 @@ const Board = () =>{
     const row1 = [3,6,9,12,15,18,21,24,27,30,33,36,-3];
     const redSet = new Set([1,3,5,7,9,12,14,16,18,19,23,25,27,30,32,34,36]);
 
+    const [seletedchipState, setSelectedChipState] = useState(Array(4).fill(0));
+
 
     const [boardMap, setBoardMap] = useState([Array(37).fill(0),Array(24).fill(0),Array(3).fill(0),Array(33).fill(0),Array(22).fill(0),[0],Array(2).fill(0),Array(3).fill(0),Array(4).fill(0),Array(12).fill(0)]);
     const [ringMap, setRingMap] = useState([Array(37).fill(""),Array(24).fill(""),Array(3).fill(""),Array(33).fill(""),Array(22).fill(""),[""],Array(2).fill(""),Array(3).fill(""),Array(4).fill(""),Array(12).fill("")]);
-    //console.log(boardMap);
-    const [rowButton, setRowButton] = useState(Array(3).fill(0));
-    const [ringRowColor, setRingRowColor] = useState(Array(3).fill(""));
-
     const [chipValue, setChipValue] = useState(0);
     
 
@@ -274,6 +276,7 @@ const Board = () =>{
         }
     }
 
+
     function BoardButtonF(i, cat){
 
         if(chipValue===0){
@@ -286,14 +289,23 @@ const Board = () =>{
         setRingMap(tempChipColor);
 
         let tempSingle = boardMap.slice();
-        console.log(tempSingle);
         tempSingle[cat][i] +=chipValue;
         setBoardMap(tempSingle);
     }
 
 
-    function chipSelect(num){
+    function chipSelect(num, index){
         setChipValue(num);
+        let tempstatearr = seletedchipState.slice();
+        for(let i=0;i<tempstatearr.length;i++){
+            if(i===index){
+                tempstatearr[i]=1;
+            }
+            else{
+                tempstatearr[i]=0;
+            }
+        }
+        setSelectedChipState(tempstatearr);
     }
 
     function clear(){
@@ -313,6 +325,8 @@ const Board = () =>{
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
+
+          clear();
 
     }
 
@@ -392,10 +406,10 @@ const Board = () =>{
                 </div>
                 
                 <div style={{width:"60px",marginTop:"50px",marginLeft:"-200px", height:"300px",position:"absolute",backgroundColor:"green", boxShadow: "inset 0 0 0 1px white"}}>
-                    <ChipDeck key={"chip1"} value={1} chipSelect={()=> chipSelect(1)} colour={"orange"} chipValue={chipValue}></ChipDeck>
-                    <ChipDeck key={"chip2"} value={5} chipSelect={()=> chipSelect(5)} colour={"yellow"} chipValue={chipValue}></ChipDeck>
-                    <ChipDeck key={"chip3"} value={10} chipSelect={()=> chipSelect(10)} colour={"purple"} chipValue={chipValue}></ChipDeck>
-                    <ChipDeck key={"chip4"} value={100} chipSelect={()=> chipSelect(100)} colour={"blue"} chipValue={chipValue}></ChipDeck>
+                    <ChipDeck key={"chip1"} value={1} chipSelect={()=> chipSelect(1,0)} colour={"orange"} selectedchipState={seletedchipState[0]}></ChipDeck>
+                    <ChipDeck key={"chip2"} value={5} chipSelect={()=> chipSelect(5,1)} colour={"yellow"} selectedchipState={seletedchipState[1]}></ChipDeck>
+                    <ChipDeck key={"chip3"} value={10} chipSelect={()=> chipSelect(10,2)} colour={"purple"} selectedchipState={seletedchipState[2]}></ChipDeck>
+                    <ChipDeck key={"chip4"} value={100} chipSelect={()=> chipSelect(100,3)} colour={"blue"} selectedchipState={seletedchipState[3]}></ChipDeck>
                 </div>
 
                 <div style={{width:"200px",marginTop:"350px",marginLeft:"-270px", height:"40px",position:"absolute"}}>
@@ -457,9 +471,7 @@ const Board = () =>{
                     
 
 
-                    {/* <NumberBoard row={row1}></NumberBoard>
-                    <NumberBoard row={row2}></NumberBoard>
-                    <NumberBoard row={row3}></NumberBoard> */}
+                    
                     <Dozen key={"dozen"} singleNum={boardMap[7][0]} BoardButtonF={()=>BoardButtonF(0,7)} currentChip={ringMap[7][0]}
                      singleNum1={boardMap[7][1]} BoardButtonF1={()=>BoardButtonF(1,7)} currentChip1={ringMap[7][1]}
                      singleNum2={boardMap[7][2]} BoardButtonF2={()=>BoardButtonF(2,7)} currentChip2={ringMap[7][2]}
