@@ -381,7 +381,7 @@ const Board = () =>{
                     })}
 
                     {
-                        ttbbetblockA.map((i)=>{
+                        wlrtlA.map((i)=>{
                             return(
                                 <Wlcbblock key={i+"corner"} left={WlcbA[i]+"px"} top={"85px"} singleNum={boardMap[4][i]} BoardButtonF={()=>BoardButtonF(i,4)} currentChip={ringMap[4][i]}></Wlcbblock>
                             ); 
