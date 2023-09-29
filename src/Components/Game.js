@@ -4,6 +4,7 @@ import Wheel from "./Wheel";
 import styles from "../css/Wheel.module.css"
 import Board from "./Board";
 import Countdown from "./Countdown";
+import Balance from "./Balance"
 
 
 
@@ -39,6 +40,7 @@ const Game = () =>{
         
         <div style={{}}>
             <div className="LeftSection" style={{display:"block", height:"50%", width:"100%"}}>
+                <Balance></Balance>
                 <Countdown></Countdown>
                 <Wheel num={result}></Wheel>
             </div>
