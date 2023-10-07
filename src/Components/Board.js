@@ -175,15 +175,15 @@ function Dozen({singleNum, currentChip, BoardButtonF,singleNum1, currentChip1, B
         <div style={{width:"600px", height:"40px"}}>
                 <div style={{width:"200px", height:"40px", backgroundColor:"green", float:"left", boxShadow: "inset 0 0 0 1px white"}}>
                 <SingleButton singleNum={singleNum} currentChip={currentChip} num={singleNum} singleButton={BoardButtonF} l={"85px"} t={"5px"}></SingleButton>
-                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white"}} onClick={BoardButtonF}>1 to 12</div>
+                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white", cursor:"pointer"}} onClick={BoardButtonF} >1 to 12</div>
                 </div>
                 <div style={{width:"200px", height:"40px", backgroundColor:"green", float:"left", boxShadow: "inset 0 0 0 1px white"}}>
                 <SingleButton singleNum={singleNum1} currentChip={currentChip1} num={singleNum1} singleButton={BoardButtonF1} l={"85px"} t={"5px"}></SingleButton>
-                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white"}} onClick={BoardButtonF1}>13 to 24</div>
+                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white", cursor:"pointer"}} onClick={BoardButtonF1}>13 to 24</div>
                 </div>
                 <div style={{width:"200px", height:"40px", backgroundColor:"green", float:"left", boxShadow: "inset 0 0 0 1px white"}}>
                 <SingleButton singleNum={singleNum2} currentChip={currentChip2} num={singleNum2} singleButton={BoardButtonF2} l={"85px"} t={"5px"}></SingleButton>
-                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white"}} onClick={BoardButtonF2}>25 to 36</div>
+                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white", cursor:"pointer"}} onClick={BoardButtonF2}>25 to 36</div>
                 </div>
         </div>
     );
@@ -256,10 +256,7 @@ const Board = () =>{
     const [chipValue, setChipValue] = useState(0);
     
 
-    const token = sessionStorage.getItem('id_token');
-    const headers = new Headers();
-    headers.set('Content-type','application/json');
-    headers.set('Authorization', `Bearer ${token}`);
+    
 
     function ringColorMap(){
         if(chipValue===1){
@@ -315,18 +312,26 @@ const Board = () =>{
 
     function Add(){
         //console.log(headers);
+        let token = sessionStorage.getItem('id_token');
+        let headers = new Headers();
+        headers.set('Content-type','application/json');
+        headers.set('Authorization', `Bearer ${token}`);
+        //console.log(token);
         var requestOptions = {
             method: 'POST',
             mode: 'cors',
             headers: headers,
             body: JSON.stringify(boardMap)
           };
-        fetch("http://localhost:9090/api/ticket/saveticket", requestOptions)
+        fetch("http://127.0.0.1:9090/api/ticket/saveticket", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result);
+                clear();
+            })
             .catch(error => console.log('error', error));
 
-          clear();
+          
 
     }
 

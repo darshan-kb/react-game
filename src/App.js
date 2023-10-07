@@ -10,6 +10,7 @@ import SocketTest from './Components/SocketTest';
 import {Link} from 'react-router-dom';
 import Wheel from './Components/Wheel';
 import Board from './Components/Board';
+import Claim from './Components/Claim';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/sock" element={<SocketTest/>}></Route>
         <Route path="/wheel" element={<Wheel rouletteData="[]" number ="3"/>}></Route>
         <Route path="/board" element={<Board/>}></Route>
+        <Route path="/claims" element={<Claim/>}></Route>
       </Routes>
       </BrowserRouter>
     </div>
