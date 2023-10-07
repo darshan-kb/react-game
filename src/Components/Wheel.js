@@ -2,6 +2,7 @@ import anime from "animejs";
 import React from "react";
 import { useEffect } from "react";
 import { rouletteData, WheelNumber } from "./Global";
+import '../css/Wheel.css'
 
 const rouletteNumberMap = new Map([
   [0,0],
@@ -219,6 +220,7 @@ const Wheel = ({num}) => {
   },);
   //if(num!==-1){
     spinWheel(rouletteNumberMap.get(parseInt(num)));
+    console.log("here "+num);
     //num=-1;
   //}
   

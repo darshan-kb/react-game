@@ -230,7 +230,7 @@ function ChipDeck({value, chipSelect, colour, selectedchipState}){
     );
 }
 
-const Board = () =>{
+const Board = ({updateBalance}) =>{
     let ttbbetblockA = [];
     let wlrtlA = [];
     for(let i=0;i<12;i++)
@@ -327,6 +327,8 @@ const Board = () =>{
             .then(response => response.text())
             .then(result => {
                 console.log(result);
+                let res = JSON.parse(result);
+                updateBalance(res.payloadValue);
                 clear();
             })
             .catch(error => console.log('error', error));

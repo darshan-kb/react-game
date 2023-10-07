@@ -10,7 +10,7 @@
   padding: 20px;
   display: flex;
   align-items: center;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
 }
@@ -51,7 +51,7 @@
 
 
 
-.roulette-wheel {
+/* .roulette-wheel {
   float: right;
   width: 380px;
   height: 380px;
@@ -144,4 +144,4 @@
   left: 50%;
   margin: -7px;
   will-change: transform;
-}
+} */
