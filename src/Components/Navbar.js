@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom';
 import { React, useEffect, useState } from 'react';
-import Balance from './Balance';
 import {demo} from "../links/demo"
 
-const Navbar = ({balance}) => {
+const Navbar = ({balance, theme}) => {
 
     let [flag, setFlag] = useState(sessionStorage.getItem('id_token') ==null ? false : true);
     const [demoStr, setDemoStr] = useState('');
@@ -16,19 +14,19 @@ const Navbar = ({balance}) => {
         
 
         const url = demo();
-        console.log(url);
+        //console.log(url);
         fetch(url,{
             method: 'GET',
             mode: 'cors',
             headers
         }).then(async (demoData) => {
             const demo = await demoData.text();
-            console.log(demo);
+            //console.log(demo);
             setDemoStr(demo);
         }).catch((err)=>{
             console.log(err);
         });
-    },[])
+    })
 
     // useEffect(() =>{
     //     setFlag(sessionStorage.getItem('id_token') ==null ? false : true);
@@ -47,21 +45,21 @@ const Navbar = ({balance}) => {
         <nav className="navbar">
           <h1>Roulette Game</h1>
           <div className="links">
-            <div style={{float:"left"}}><p>{demoStr}</p></div>
+            <div style={{float:"left"}}><p style={{color:theme}} >{demoStr}</p></div>
             
-            <div style={{float:"left"}}><a href="/" >Home</a></div>
+            <div style={{float:"left"}}><a style={{color:theme}} href="/" >Home</a></div>
             {
-              flag===false && <div style={{float:"left"}}><a href="/login" onClick={() => setFlag(true)}>Login</a></div>
+              flag===false && <div style={{float:"left"}}><a style={{color:theme}} href="/login" onClick={() => setFlag(true)}>Login</a></div>
             }
             {
-                flag===true && <div style={{float:"left"}}><a href="/game">Game </a></div>
+                flag===true && <div style={{float:"left", }}><a style={{color:theme}} href="/game">Game </a></div>
             }
             {
-                flag===true && <div style={{float:"left"}}><a href="/claims">Claims </a></div>
+                flag===true && <div style={{float:"left", color:theme}}><a style={{color:theme}} href="/claims">Claims </a></div>
             }
             {
               // flag===true && <Balance balance={balance}></Balance>
-              flag===true && <div style={{float:"left", marginLeft:"16px"}}>Balance : {balance}</div>
+              flag===true && <div style={{float:"left", marginLeft:"16px", color:theme, fontWeight:"bold"}}>Balance : {balance}</div>
             }
             {
                 

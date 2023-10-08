@@ -83,7 +83,7 @@ const Claim = () =>{
    return(
         <>
         {/* <div>{balance}</div> */}
-        <Navbar balance={balance}></Navbar>
+        <Navbar balance={balance} theme={"black"}></Navbar>
         <div style={{marginTop:"5%", marginLeft:"20%"}}>
             <table>
                 <thead>

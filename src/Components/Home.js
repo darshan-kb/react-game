@@ -19,7 +19,7 @@ const Home =() =>{
             .catch(error => console.log('error', error));
     },[])
     return <>
-    <Navbar balance={balance}/>
+    <Navbar balance={balance} theme={"black"}/>
     <div>
         <h1>Home</h1>
     </div>

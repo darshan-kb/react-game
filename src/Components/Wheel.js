@@ -1,7 +1,6 @@
 import anime from "animejs";
 import React from "react";
 import { useEffect } from "react";
-import { rouletteData, WheelNumber } from "./Global";
 import '../css/Wheel.css'
 
 const rouletteNumberMap = new Map([
@@ -85,7 +84,7 @@ const rouletteWheelNumbers = [
 ];
 
 
-const Wheel = ({num}) => {
+const Wheel = () => {
   
   var totalNumbers = 37;
   var singleSpinDuration = 5000;
@@ -198,36 +197,15 @@ const Wheel = ({num}) => {
     });
   }
 
-  // useEffect(() => {
-  //   var nextNubmer = number.next;
-  //   if (nextNubmer != null && nextNubmer !== "") {
-  //     var nextNumberInt = parseInt(nextNubmer);
-  //     spinWheel(nextNumberInt);
-  //   }
-  // }, [number]);
-  //spinWheel(36);
-
-  useEffect(()=>{
-  //   let i=0;
-  // setInterval(()=>{
-  //   if(i==37){
-  //     i=0;
-  //   }
-  //     spinWheel(rouletteNumberMap.get(i));
-  //   i++;
-  // },10000);
-  //spinWheel(rouletteNumberMap.get(parseInt(num)));
-  },);
-  //if(num!==-1){
-    spinWheel(rouletteNumberMap.get(parseInt(num)));
-    console.log("here "+num);
-    //num=-1;
-  //}
-  
-
-  // for(let i=0;i<37;i++){
-  //   spinWheel(rouletteNumberMap.get(i));
-  // }
+    useEffect(()=>{
+        let sse = new EventSource("http://localhost:9090/sse");
+        sse.onmessage = (response) => {
+            let resp = JSON.parse(response.data);
+            if(resp.payloadName==="result"){
+                spinWheel(rouletteNumberMap.get(parseInt(resp.payloadValue)));
+            }
+         }
+    })
 
   return (
     <div className={"roulette-wheel"}>
