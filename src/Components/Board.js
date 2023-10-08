@@ -175,15 +175,15 @@ function Dozen({singleNum, currentChip, BoardButtonF,singleNum1, currentChip1, B
         <div style={{width:"600px", height:"40px"}}>
                 <div style={{width:"200px", height:"40px", backgroundColor:"green", float:"left", boxShadow: "inset 0 0 0 1px white"}}>
                 <SingleButton singleNum={singleNum} currentChip={currentChip} num={singleNum} singleButton={BoardButtonF} l={"85px"} t={"5px"}></SingleButton>
-                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white"}} onClick={BoardButtonF}>1 to 12</div>
+                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white", cursor:"pointer"}} onClick={BoardButtonF} >1 to 12</div>
                 </div>
                 <div style={{width:"200px", height:"40px", backgroundColor:"green", float:"left", boxShadow: "inset 0 0 0 1px white"}}>
                 <SingleButton singleNum={singleNum1} currentChip={currentChip1} num={singleNum1} singleButton={BoardButtonF1} l={"85px"} t={"5px"}></SingleButton>
-                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white"}} onClick={BoardButtonF1}>13 to 24</div>
+                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white", cursor:"pointer"}} onClick={BoardButtonF1}>13 to 24</div>
                 </div>
                 <div style={{width:"200px", height:"40px", backgroundColor:"green", float:"left", boxShadow: "inset 0 0 0 1px white"}}>
                 <SingleButton singleNum={singleNum2} currentChip={currentChip2} num={singleNum2} singleButton={BoardButtonF2} l={"85px"} t={"5px"}></SingleButton>
-                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white"}} onClick={BoardButtonF2}>25 to 36</div>
+                    <div style={{ fontWeight:"bold", fontSize:"20px", marginTop:"5px", color:"white", cursor:"pointer"}} onClick={BoardButtonF2}>25 to 36</div>
                 </div>
         </div>
     );
@@ -230,7 +230,7 @@ function ChipDeck({value, chipSelect, colour, selectedchipState}){
     );
 }
 
-const Board = () =>{
+const Board = ({updateBalance}) =>{
     let ttbbetblockA = [];
     let wlrtlA = [];
     for(let i=0;i<12;i++)
@@ -256,10 +256,7 @@ const Board = () =>{
     const [chipValue, setChipValue] = useState(0);
     
 
-    const token = sessionStorage.getItem('id_token');
-    const headers = new Headers();
-    headers.set('Content-type','application/json');
-    headers.set('Authorization', `Bearer ${token}`);
+    
 
     function ringColorMap(){
         if(chipValue===1){
@@ -315,18 +312,28 @@ const Board = () =>{
 
     function Add(){
         //console.log(headers);
+        let token = sessionStorage.getItem('id_token');
+        let headers = new Headers();
+        headers.set('Content-type','application/json');
+        headers.set('Authorization', `Bearer ${token}`);
+        //console.log(token);
         var requestOptions = {
             method: 'POST',
             mode: 'cors',
             headers: headers,
             body: JSON.stringify(boardMap)
           };
-        fetch("http://localhost:9090/api/ticket/saveticket", requestOptions)
+        fetch("http://127.0.0.1:9090/api/ticket/saveticket", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                //console.log(result);
+                let res = JSON.parse(result);
+                updateBalance(res.payloadValue);
+                clear();
+            })
             .catch(error => console.log('error', error));
 
-          clear();
+          
 
     }
 
@@ -334,11 +341,11 @@ const Board = () =>{
 
     return(
         <>
-            <div id="betting_board" style={{marginLeft:"35vw", marginTop:"1.5vw"}}>
-                <div className="winning_lines" style={{display:"block", position:"absolute", marginLeft:"0px", marginTop:"50px"}}>
+            <div key={"betting_board"} id="betting_board" style={{marginLeft:"35vw", marginTop:"1.5vw"}}>
+                <div key={"betting_board1"} className="winning_lines" style={{display:"block", position:"absolute", marginLeft:"0px", marginTop:"50px"}}>
                     {/* <Wlttb key={"wlttbtop"} top={"0px"} left={WlttbTopA} length={11} BoardButtonF={() => BoardButtonF()}></Wlttb> */}
 
-                    <div style={{width:"600px", height:"10px", marginTop:"85px", position:"absolute"}} >
+                    <div key={"betting_board2"} style={{width:"600px", height:"10px", marginTop:"85px", position:"absolute"}} >
                         {
                             ttbbetblockA.map((i)=>{
                                 return(
@@ -347,7 +354,7 @@ const Board = () =>{
                             })
                         }
                     </div>
-                    <div style={{width:"600px", height:"10px", marginTop:"175px", position:"absolute"}} >
+                    <div key={"betting_board3"} style={{width:"600px", height:"10px", marginTop:"175px", position:"absolute"}} >
                         {
                             ttbbetblockA.map((i)=>{
                                 i=i+12;
@@ -357,7 +364,7 @@ const Board = () =>{
                             })
                         }
                     </div>
-                    <div style={{width:"600px", height:"10px", marginTop:"265px", position:"absolute"}} >
+                    <div key={"betting_board4"} style={{width:"600px", height:"10px", marginTop:"265px", position:"absolute"}} >
                         {
                             ttbbetblockA.map((i)=>{
                                 //i=i+24;
@@ -372,7 +379,7 @@ const Board = () =>{
                     {wlrtlA.map((i)=>{
 
                         return (
-                            <div style={{width:"16px", height:"270px", marginLeft:WlcbA[i]+"px", float:"left", position:"absolute"}}>
+                            <div key={"betting_board5"+i} style={{width:"16px", height:"270px", marginLeft:WlcbA[i]+"px", float:"left", position:"absolute"}}>
                                 <Rtlbb key={"rtlbb1"+i} id={i} top={"40px"} singleNum={boardMap[3][i]} BoardButtonF={()=>BoardButtonF(i,3)} currentChip={ringMap[3][i]}></Rtlbb>
                                 <Rtlbb key={"rtlbb2"+(i+11)} id={i+11} top={"80px"} singleNum={boardMap[3][i+11]} BoardButtonF={()=>BoardButtonF(i+11,3)} currentChip={ringMap[3][i+11]}></Rtlbb>
                                 <Rtlbb key={"rtlbb3"+(i+22)} id={i+22} top={"80px"} singleNum={boardMap[3][i+22]} BoardButtonF={()=>BoardButtonF(i+22,3)} currentChip={ringMap[3][i+22]}></Rtlbb>
@@ -405,14 +412,14 @@ const Board = () =>{
                     <Wlcb key={"wlcb2"} top={"175px"} left={WlcbA} length={11} chipButton={() => chipAddButton()}></Wlcb> */}
                 </div>
                 
-                <div style={{width:"60px",marginTop:"50px",marginLeft:"-200px", height:"300px",position:"absolute",backgroundColor:"green", boxShadow: "inset 0 0 0 1px white"}}>
+                <div key={"betting_board6"} style={{width:"60px",marginTop:"50px",marginLeft:"-200px", height:"300px",position:"absolute",backgroundColor:"green", boxShadow: "inset 0 0 0 1px white"}}>
                     <ChipDeck key={"chip1"} value={1} chipSelect={()=> chipSelect(1,0)} colour={"orange"} selectedchipState={seletedchipState[0]}></ChipDeck>
                     <ChipDeck key={"chip2"} value={5} chipSelect={()=> chipSelect(5,1)} colour={"yellow"} selectedchipState={seletedchipState[1]}></ChipDeck>
                     <ChipDeck key={"chip3"} value={10} chipSelect={()=> chipSelect(10,2)} colour={"purple"} selectedchipState={seletedchipState[2]}></ChipDeck>
                     <ChipDeck key={"chip4"} value={100} chipSelect={()=> chipSelect(100,3)} colour={"blue"} selectedchipState={seletedchipState[3]}></ChipDeck>
                 </div>
 
-                <div style={{width:"200px",marginTop:"350px",marginLeft:"-270px", height:"40px",position:"absolute"}}>
+                <div key={"betting_board7"} style={{width:"200px",marginTop:"350px",marginLeft:"-270px", height:"40px",position:"absolute"}}>
                     <div style={{width:"50%", height:"100%",  float:"left"}}>
                     <button style={{marginTop:"10%", width:"60px", height:"30px"}} onClick={Add}> Add</button>
                     </div>
@@ -421,11 +428,11 @@ const Board = () =>{
                     </div>
                 </div>
                 
-                <div className="number_board" style={{width:"600px", height:"180px", marginTop:"0px", marginLeft:"0px"}}>
+                <div key={"betting_board8"} className="number_board" style={{width:"600px", height:"180px", marginTop:"0px", marginLeft:"0px"}}>
                     <Number0 key={"zero"} singleNum={boardMap[5][0]} BoardButtonF={()=>BoardButtonF(0,5)} currentChip={ringMap[5][0]}></Number0>
                     <Bbtop key={"btop"} singleNum={boardMap[6][0]} BoardButtonF={()=>BoardButtonF(0,6)} currentChip={ringMap[6][0]} singleNum1={boardMap[6][1]} BoardButtonF1={()=>BoardButtonF(1,6)} currentChip1={ringMap[6][1]}></Bbtop>
 
-                    <div style={{width:"660px", height:"90px", float:"left", backgroundColor:"white"}}>
+                    <div key={"betting_board9"} style={{width:"660px", height:"90px", float:"left", backgroundColor:"white"}}>
                         {
                             row1.map((i)=>{
                                 if(i<0)
@@ -440,7 +447,7 @@ const Board = () =>{
                             })
                         }
                     </div>
-                    <div style={{width:"660px", height:"90px", float:"left", backgroundColor:"white"}}>
+                    <div key={"betting_board10"} style={{width:"660px", height:"90px", float:"left", backgroundColor:"white"}}>
                         {
                             row2.map((i)=>{
                                 if(i<0)
@@ -454,7 +461,7 @@ const Board = () =>{
                             })
                         }
                     </div>
-                    <div style={{width:"660px", height:"90px", float:"left", backgroundColor:"white"}}>
+                    <div key={"betting_board11"} style={{width:"660px", height:"90px", float:"left", backgroundColor:"white"}}>
                         {
                             row3.map((i)=>{
                                 if(i<0)
