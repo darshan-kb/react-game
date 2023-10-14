@@ -43,8 +43,8 @@ const Navbar = ({balance, theme}) => {
 
     return (
         <nav className="navbar">
-          <h1>Roulette Game</h1>
-          <div className="links">
+          <h3>Roulette Game</h3>
+          <div className="links" style={{marginTop:"15px"}}>
             <div style={{float:"left"}}><p style={{color:theme}} >{demoStr}</p></div>
             
             <div style={{float:"left"}}><a style={{color:theme}} href="/" >Home</a></div>
@@ -56,6 +56,9 @@ const Navbar = ({balance, theme}) => {
             }
             {
                 flag===true && <div style={{float:"left", color:theme}}><a style={{color:theme}} href="/claims">Claims </a></div>
+            }
+            {
+                flag===true && <div style={{float:"left", color:theme}}><a style={{color:theme}} href="/ticket/report">Report </a></div>
             }
             {
               // flag===true && <Balance balance={balance}></Balance>

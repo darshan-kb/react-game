@@ -11,6 +11,7 @@ import {Link} from 'react-router-dom';
 import Wheel from './Components/Wheel';
 import Board from './Components/Board';
 import Claim from './Components/Claim';
+import TicketReport from './Components/TicketReport';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/wheel" element={<Wheel rouletteData="[]" number ="3"/>}></Route>
         <Route path="/board" element={<Board/>}></Route>
         <Route path="/claims" element={<Claim/>}></Route>
+        <Route path="/ticket/report" element={<TicketReport/>}></Route>
       </Routes>
       </BrowserRouter>
     </div>
